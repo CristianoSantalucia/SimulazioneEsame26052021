@@ -146,8 +146,11 @@ public class YelpDao
 
 	public void getBusinessCityYear(Map<String, Business> mappaB, String citta, int year)
 	{
-		String sql = "SELECT * " + "FROM business AS b, reviews AS r " + "WHERE b.business_id = r.business_id "
-				+ "		AND city = ? " + "		AND YEAR( r.review_date ) = ? ";
+		String sql = "SELECT * "
+						+ "FROM business AS b, reviews AS r " 
+						+ "WHERE b.business_id = r.business_id "
+						+ "		AND city = ? " 
+						+ "		AND YEAR( r.review_date ) = ? ";
 
 		Connection conn = DBConnect.getConnection();
 

@@ -38,8 +38,7 @@ public class Model
 	{
 		this.grafo = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 		this.mappaB = new HashMap<>();
-		this.recensioni = new HashMap<>();
-		this.mappaB.clear();
+		this.recensioni = new HashMap<>(); 
 
 		this.dao.getBusinessCityYear(this.mappaB, citta, anno);
 		this.dao.getRecensioni(this.recensioni, citta, anno);
