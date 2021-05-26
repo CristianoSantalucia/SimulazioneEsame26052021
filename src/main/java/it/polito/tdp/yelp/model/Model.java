@@ -24,7 +24,6 @@ public class Model
 	public Model()
 	{
 		this.dao = new YelpDao();
-		this.grafo = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
 	}
 
@@ -37,6 +36,7 @@ public class Model
 
 	public String creaGrafo(String citta, int anno)
 	{
+		this.grafo = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 		this.mappaB = new HashMap<>();
 		this.recensioni = new HashMap<>();
 		this.mappaB.clear();
