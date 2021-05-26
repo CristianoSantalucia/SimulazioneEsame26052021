@@ -57,7 +57,7 @@ public class FXMLController
 
 	@FXML void doCalcolaPercorso(ActionEvent event)
 	{
-
+		
 	}
 
 	@FXML void doCreaGrafo(ActionEvent event)
@@ -67,7 +67,8 @@ public class FXMLController
 		
 		if (year != null && city != null)
 		{
-			this.cmbLocale.getItems().addAll(this.model.getBusinessYearCity(city,year));
+			txtResult.appendText("\n" + this.model.creaGrafo(city,year));
+			this.cmbLocale.getItems().addAll(this.model.getBusiness());
 		}
 		else 
 			txtResult.setText("ERRORE");
@@ -76,7 +77,8 @@ public class FXMLController
 
 	@FXML void doLocaleMigliore(ActionEvent event)
 	{
-
+		Business besta = this.model.calcolaMigliore();
+		txtResult.appendText("\nMilgior locale: " + besta);
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
@@ -97,8 +99,6 @@ public class FXMLController
 	{
 		this.model = model;
 		
-		//
-		
 //		LocalDate anno = LocalDate.of(2005, 1, 1);
 		Integer anno = 2005;
 		this.cmbAnno.getItems().add(anno);
@@ -109,7 +109,6 @@ public class FXMLController
 		}
 		
 		//
-		
 		this.cmbCitta.getItems().addAll(this.model.getCitta());
 	}
 }

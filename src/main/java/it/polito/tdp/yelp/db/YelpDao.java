@@ -115,7 +115,7 @@ public class YelpDao
 	public List<String> getAllCitta()
 	{
 		String sql = "SELECT DISTINCT(business.city) FROM Business";
-		
+
 		List<String> result = new ArrayList<>();
 		Connection conn = DBConnect.getConnection();
 
@@ -123,7 +123,7 @@ public class YelpDao
 		{
 			PreparedStatement st = conn.prepareStatement(sql);
 			ResultSet res = st.executeQuery();
-			
+
 			while (res.next())
 			{
 
@@ -131,7 +131,7 @@ public class YelpDao
 
 				result.add(s);
 			}
-			
+
 			res.close();
 			st.close();
 			conn.close();
@@ -143,83 +143,81 @@ public class YelpDao
 			return null;
 		}
 	}
-	
-	public Map<String, Business> getBusinessCityYear(Map<String, Business> mappaB, String c, int y)
+
+	public void getBusinessCityYear(Map<String, Business> mappaB, String citta, int year)
 	{
-		String sql = "SELECT * "
-				+ "FROM business AS b, reviews AS r "
-				+ "WHERE b.business_id = r.business_id "
-				+ "		AND city = ? "
-				+ "		AND YEAR( r.review_date ) = ? ";
-		
+		String sql = "SELECT * " + "FROM business AS b, reviews AS r " + "WHERE b.business_id = r.business_id "
+				+ "		AND city = ? " + "		AND YEAR( r.review_date ) = ? ";
+
 		Connection conn = DBConnect.getConnection();
-		
+
 		try
 		{
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setString(1, c);
-			st.setInt(2, y);
+			st.setString(1, citta);
+			st.setInt(2, year);
 			ResultSet res = st.executeQuery();
-			
+
 			while (res.next())
 			{
-				Business business = new Business(res.getString("business_id"), res.getString("full_address"),
-						res.getString("active"), res.getString("categories"), res.getString("city"),
-						res.getInt("review_count"), res.getString("business_name"), res.getString("neighborhoods"),
-						res.getDouble("latitude"), res.getDouble("longitude"), res.getString("state"),
-						res.getDouble("stars"));
-				
-				if(!mappaB.containsKey(business.getBusinessId()))
+				if (!mappaB.containsKey(res.getString("business_id")))
+				{
+					Business business = new Business(res.getString("business_id"), res.getString("full_address"),
+							res.getString("active"), res.getString("categories"), res.getString("city"),
+							res.getInt("review_count"), res.getString("business_name"), res.getString("neighborhoods"),
+							res.getDouble("latitude"), res.getDouble("longitude"), res.getString("state"),
+							res.getDouble("stars"));
+
 					mappaB.put(business.getBusinessId(), business);
+				}
 			}
-			
+
 			res.close();
 			st.close();
 			conn.close();
-			return mappaB;
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
-			return null;
 		}
 	}
 
-	public Map<String, Double> getRecensioni(Map<String, Double> recensioni, int anno)
+	public void getRecensioni(Map<String, Double> recensioni, String citta, int year)
 	{
-		String sql = "SELECT r.business_id, AVG(r.stars) AS avg "
-						+ "FROM reviews AS r "
-//						+ "WHERE YEAR(r.review_date) = ? "
-						+ "GROUP BY r.business_id ";
-		 
+		String sql = "SELECT r.business_id, AVG(r.stars) AS avg " 
+					+ "FROM business AS b, reviews AS r "
+					+ "WHERE b.business_id = r.business_id " 
+					+ "		AND b.city = ? "
+					+ "		AND YEAR(r.review_date) = ? " 
+					+ "GROUP BY r.business_id ";
+
 		Connection conn = DBConnect.getConnection();
-		
+
 		try
 		{
-			PreparedStatement st = conn.prepareStatement(sql); 
-//			st.setInt(1, anno);
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, citta);
+			st.setInt(2, year);
 			ResultSet res = st.executeQuery();
-			
+
 			while (res.next())
 			{
 				String id = res.getString("business_id");
 				Double r = res.getDouble("avg");
-				 
-				if(!recensioni.containsKey(id))
+
+				if (!recensioni.containsKey(id))
 				{
 					recensioni.put(id, r);
 				}
 			}
-			
+
 			res.close();
 			st.close();
 			conn.close();
-			return recensioni;
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
-			return null;
 		}
-	} 
+	}
 }
