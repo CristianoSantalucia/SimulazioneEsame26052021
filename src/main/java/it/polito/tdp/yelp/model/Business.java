@@ -14,6 +14,10 @@ public class Business {
 	private String state;
 	private double stars;
 	
+	public Business(String businessId)
+	{
+		this.businessId = businessId;
+	}
 	
 	public Business(String businessId, String fullAddress, String active, String categories, String city, int reviewCount,
 			String businessName, String neighborhoods, double latitude, double longitude, String state, double stars) {
@@ -130,5 +134,10 @@ public class Business {
 		return true;
 	}
 
-	
+	@Override public String toString()
+	{
+		return "Business [businessId=" + businessId + ", fullAddress=" + fullAddress + ", categories=" + categories
+				+ ", city=" + city + ", businessName=" + businessName + ", state=" + state + "]";
+	}
+
 }
