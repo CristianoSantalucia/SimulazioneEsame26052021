@@ -189,7 +189,7 @@ public class YelpDao
 	{
 		String sql = "SELECT r.business_id, AVG(r.stars) AS avg "
 						+ "FROM reviews AS r "
-						+ "WHERE YEAR(r.review_date) = ? "
+//						+ "WHERE YEAR(r.review_date) = ? "
 						+ "GROUP BY r.business_id ";
 		 
 		Connection conn = DBConnect.getConnection();
@@ -197,12 +197,11 @@ public class YelpDao
 		try
 		{
 			PreparedStatement st = conn.prepareStatement(sql); 
-			st.setInt(1, anno);
+//			st.setInt(1, anno);
 			ResultSet res = st.executeQuery();
 			
 			while (res.next())
 			{
-				 
 				String id = res.getString("business_id");
 				Double r = res.getDouble("avg");
 				 
