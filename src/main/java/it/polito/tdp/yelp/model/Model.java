@@ -39,6 +39,7 @@ public class Model
 	{
 		this.mappaB = new HashMap<>();
 		this.recensioni = new HashMap<>();
+		this.mappaB.clear();
 
 		this.dao.getBusinessCityYear(this.mappaB, citta, anno);
 		this.dao.getRecensioni(this.recensioni, citta, anno);
